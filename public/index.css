@@ -147,3 +147,22 @@ body .content {
   cursor: pointer;
   font-weight: 600;
 }
+
+.message {
+  margin-top: 8px;
+  display: flex;
+}
+
+.message .avatar {
+  width: 48px;
+  margin-right: 12px;
+}
+
+.message .pseudo {
+  font-weight: 800;
+}
+
+.message .date {
+  color: #cecece;
+  font-size: 12px;
+}

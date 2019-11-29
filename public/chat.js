@@ -8,7 +8,26 @@ function getHtml (data) {
 }
 
 function addMessage (data) {
-  document.getElementById('messages').append(getHtml(data))
+  const date = new Date(data.date)
+  const value = `
+    <div class="message">
+      <div class="avatar">
+        <img src="${data.avatar}">
+      </div>
+      <div class="content">
+        <div class="pseudo">
+          ${data.pseudo}
+        </div>
+        <div class="date">
+          ${date.toLocaleDateString()}
+          à
+          ${date.toLocaleTimeString()}
+        </div>
+        ${data.message}
+      </div>
+    </div>
+  `
+  document.getElementById('messages').append(getHtml(value))
 }
 
 function addUser (data) {
@@ -26,6 +45,10 @@ const socket = io({
   }
 })
 
+socket.on('message', function (value) {
+  addMessage(value);
+})
+
 document.querySelector('[data-avatar]').setAttribute('src', avatar)
 document.querySelector('[data-pseudo]').textContent = pseudo
 
@@ -35,6 +58,7 @@ document.getElementById('send').addEventListener('submit', function (e) {
   if (value) {
     // Send message
     console.log(value)
+    socket.emit('message', value)
     this.querySelector('input').value = null
   }
 })
